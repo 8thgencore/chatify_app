@@ -20,16 +20,22 @@ class AuthenticationProvider extends ChangeNotifier {
     _auth.authStateChanges().listen((_user) {
       if (_user != null) {
         _databaseService.updateUserLastSeenTime(_user.uid);
-        _databaseService.getUser(_user.uid).then((_snapshot) {
-          Map<String, dynamic> _userData = _snapshot.data()! as Map<String, dynamic>;
+        _databaseService.getUser(_user.uid).then((snapshot) {
+          Map<String, dynamic> _userData = snapshot.data() as Map<String, dynamic>;
           user = ChatUser.fromJson({
             "uid": _user.uid,
             "name": _userData["name"],
             "email": _userData["email"],
             "last_active": _userData["last_active"],
-            "imageUrl": _userData["imageUrl"],
+            "image_url": _userData["image_url"],
           });
-          print(user);
+          // user = ChatUser(
+          //   uid: _user.uid,
+          //   name: _userData["name"],
+          //   email: _userData["email"],
+          //   imageUrl: _userData["image_url"],
+          //   lastActive: _userData["last_active"],
+          // );
         });
       } else {
         print("Not Authenticated");

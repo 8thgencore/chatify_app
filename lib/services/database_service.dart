@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-const String USER_COLLECTION = "Users";
-const String CHAT_COLLECTION = "Users";
-const String MESSAGES_COLLECTION = "Users";
+const String USER_COLLECTION = "users";
+const String CHAT_COLLECTION = "users";
+const String MESSAGES_COLLECTION = "users";
 
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;

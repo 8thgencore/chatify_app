@@ -11,7 +11,7 @@ ChatUser _$ChatUserFromJson(Map<String, dynamic> json) => ChatUser(
       name: json['name'] as String,
       email: json['email'] as String,
       imageUrl: json['image_url'] as String,
-      lastActive: DateTime.parse(json['last_active'] as String),
+      lastActive: json['last_active'].toDate(),
     );
 
 Map<String, dynamic> _$ChatUserToJson(ChatUser instance) => <String, dynamic>{
