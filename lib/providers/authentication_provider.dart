@@ -29,16 +29,10 @@ class AuthenticationProvider extends ChangeNotifier {
             "last_active": _userData["last_active"],
             "image_url": _userData["image_url"],
           });
-          // user = ChatUser(
-          //   uid: _user.uid,
-          //   name: _userData["name"],
-          //   email: _userData["email"],
-          //   imageUrl: _userData["image_url"],
-          //   lastActive: _userData["last_active"],
-          // );
+          _navigationService.removeAndNavigateToRoute('/home');
         });
       } else {
-        print("Not Authenticated");
+        _navigationService.removeAndNavigateToRoute('/login');
       }
     });
   }
