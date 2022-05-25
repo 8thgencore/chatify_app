@@ -1,27 +1,33 @@
 import 'package:chatify_app/providers/authentication_provider.dart';
+import 'package:chatify_app/services/media_service.dart';
 import 'package:chatify_app/services/navigation_service.dart';
 import 'package:chatify_app/widgets/custom_input_fileds.dart';
 import 'package:chatify_app/widgets/rounded_button.dart';
+import 'package:chatify_app/widgets/rounded_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   late double _deviceHeight;
   late double _deviceWidth;
+
+  PlatformFile? _profileImage;
+
+  final _registerFormKey = GlobalKey<FormState>();
 
   late AuthenticationProvider _auth;
   late NavigationService _navigation;
 
-  final _loginFormKey = GlobalKey<FormState>();
-
+  String? _name;
   String? _email;
   String? _password;
 
@@ -36,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildUI() {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.symmetric(
           horizontal: _deviceWidth * 0.03,
@@ -48,43 +55,58 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _pageTitle(),
+            _profileImageField(),
             SizedBox(height: _deviceHeight * 0.04),
-            _loginForm(),
-            SizedBox(height: _deviceHeight * 0.05),
-            _loginButton(),
-            SizedBox(height: _deviceHeight * 0.02),
-            _registerAccountLink(),
+            _registerForm(),
+            SizedBox(height: _deviceHeight * 0.04),
+            _registerButton(),
           ],
         ),
       ),
     );
   }
 
-  Widget _pageTitle() {
-    return Container(
-      height: _deviceHeight * 0.10,
-      child: const Text(
-        'Chatify',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 40,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+  Widget _profileImageField() {
+    return GestureDetector(
+      onTap: () {
+        GetIt.instance.get<MediaService>().pickImageFromLibrary().then((file) {
+          setState(() => _profileImage = file);
+        });
+      },
+      child: () {
+        if (_profileImage != null) {
+          return RoundedImageFile(
+            image: _profileImage!,
+            size: _deviceHeight * 0.15,
+          );
+        } else {
+          return RoundedImage(
+            imagePath: "https://i.pravatar.cc/150?img=12",
+            size: _deviceHeight * 0.15,
+          );
+        }
+      }(),
     );
   }
 
-  Widget _loginForm() {
+  Widget _registerForm() {
     return Container(
       height: _deviceHeight * 0.18,
       child: Form(
-        key: _loginFormKey,
+        key: _registerFormKey,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            CustomTextFormField(
+              onSaved: (value) {
+                setState(() => _name = value);
+              },
+              regEx: r".{8,}",
+              hintText: "Name",
+              obscureText: false,
+            ),
             CustomTextFormField(
               onSaved: (value) {
                 setState(() => _email = value);
@@ -107,27 +129,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _loginButton() {
+  Widget _registerButton() {
     return RoundedButton(
-      name: "Login",
+      name: "Register",
       height: _deviceHeight * 0.065,
       width: _deviceWidth * 0.65,
-      onPressed: () {
-        if (_loginFormKey.currentState!.validate()) {
-          _loginFormKey.currentState!.save();
-          _auth.loginUsingEmailAndPassword(_email!, _password!);
-        }
-      },
-    );
-  }
-
-  Widget _registerAccountLink() {
-    return GestureDetector(
-      onTap: () => _navigation.navigateToRoute('/register'),
-      child: const Text(
-        'Don\'t have an account?',
-        style: TextStyle(color: Colors.blueAccent),
-      ),
+      onPressed: () {},
     );
   }
 }

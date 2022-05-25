@@ -1,5 +1,6 @@
 import 'package:chatify_app/pages/home_page.dart';
 import 'package:chatify_app/pages/login_page.dart';
+import 'package:chatify_app/pages/register_page.dart';
 import 'package:chatify_app/pages/splash_page.dart';
 import 'package:chatify_app/providers/authentication_provider.dart';
 import 'package:chatify_app/services/navigation_service.dart';
@@ -47,6 +48,7 @@ class MainApp extends StatelessWidget {
         initialRoute: '/login',
         routes: {
           '/login': (BuildContext context) => LoginPage(),
+          '/register': (BuildContext context) => RegisterPage(),
           '/home': (BuildContext context) => HomePage(),
         },
       ),
