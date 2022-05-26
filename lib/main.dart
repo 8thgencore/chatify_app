@@ -14,9 +14,7 @@ void main() {
     SplashPage(
       key: UniqueKey(),
       onInitializationComplete: () {
-        runApp(
-          MainApp(),
-        );
+        runApp(MainApp());
       },
     ),
   );

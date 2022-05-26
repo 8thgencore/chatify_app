@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _loginForm() {
     return Container(
-      height: _deviceHeight * 0.18,
+      height: _deviceHeight * 0.22,
       child: Form(
         key: _loginFormKey,
         child: Column(
@@ -112,10 +112,10 @@ class _LoginPageState extends State<LoginPage> {
       name: "Login",
       height: _deviceHeight * 0.065,
       width: _deviceWidth * 0.65,
-      onPressed: () {
+      onPressed: () async {
         if (_loginFormKey.currentState!.validate()) {
           _loginFormKey.currentState!.save();
-          _auth.loginUsingEmailAndPassword(_email!, _password!);
+          await _auth.loginUsingEmailAndPassword(_email!, _password!);
         }
       },
     );
