@@ -88,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
             size: _deviceHeight * 0.15,
           );
         } else {
-          return RoundedImage(
+          return RoundedImageNetwork(
             imagePath: "https://i.pravatar.cc/150?img=12",
             size: _deviceHeight * 0.15,
           );

@@ -116,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
         if (_loginFormKey.currentState!.validate()) {
           _loginFormKey.currentState!.save();
           await _auth.loginUsingEmailAndPassword(_email!, _password!);
+          // _navigation.navigateToRoute('/home');
         }
       },
     );

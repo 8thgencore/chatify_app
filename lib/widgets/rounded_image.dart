@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-class RoundedImage extends StatelessWidget {
+class RoundedImageNetwork extends StatelessWidget {
   final String imagePath;
   final double size;
 
-  const RoundedImage({
+  const RoundedImageNetwork({
     Key? key,
     required this.imagePath,
     required this.size,
@@ -52,6 +52,36 @@ class RoundedImageFile extends StatelessWidget {
           ),
           borderRadius: BorderRadius.all(Radius.circular(size)),
           color: Colors.black),
+    );
+  }
+}
+
+class RoundedImageNetworkWithStatusIndicator extends RoundedImageNetwork {
+  final bool isActive;
+
+  const RoundedImageNetworkWithStatusIndicator({
+    required super.key,
+    required super.imagePath,
+    required super.size,
+    required this.isActive,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.bottomRight,
+      children: [
+        super.build(context),
+        Container(
+          height: size * 0.20,
+          width: size * 0.20,
+          decoration: BoxDecoration(
+            color: isActive ? Colors.green : Colors.red,
+            borderRadius: BorderRadius.circular(size),
+          ),
+        ),
+      ],
     );
   }
 }
