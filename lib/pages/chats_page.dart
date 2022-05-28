@@ -38,6 +38,7 @@ class _ChatsPageState extends State<ChatsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: _deviceHeight * 0.02),
           TopBar(
             barTitle: "Chats",
             primaryAction: IconButton(
@@ -45,18 +46,25 @@ class _ChatsPageState extends State<ChatsPage> {
               onPressed: () => _auth.logout(),
             ),
           ),
-          // CustomListViewTileWithActivity(
-          //   height: _deviceHeight * 0.10,
-          //   title: "Hussain Mustaf",
-          //   subtitle: "Subtitile",
-          //   imagePath: "https://i.pravatar.cc/300",
-          //   isActive: false,
-          //   isActivity: false,
-          //   onTap: () {},
-          // ),
-          SizedBox(height: _deviceHeight * 0.04),
+          _chatsList(),
         ],
       ),
+    );
+  }
+
+  Widget _chatsList() {
+    return Expanded(child: _chatTile());
+  }
+
+  Widget _chatTile() {
+    return CustomListViewTileWithActivity(
+      height: _deviceHeight * 0.10,
+      title: "Hussain Mustaf",
+      subtitle: "Subtitile",
+      imagePath: "https://i.pravatar.cc/300",
+      isActive: true,
+      isActivity: true,
+      onTap: () {},
     );
   }
 }
