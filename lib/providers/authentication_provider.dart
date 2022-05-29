@@ -10,7 +10,7 @@ class AuthenticationProvider extends ChangeNotifier {
   late final NavigationService _navigationService;
   late final DatabaseService _databaseService;
 
-  late ChatUser chat_user;
+  late ChatUser chatUser;
 
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
@@ -22,7 +22,7 @@ class AuthenticationProvider extends ChangeNotifier {
         _databaseService.updateUserLastSeenTime(user.uid);
         _databaseService.getUser(user.uid).then((snapshot) {
           Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
-          chat_user = ChatUser.fromJson({
+          chatUser = ChatUser.fromJson({
             "uid": user.uid,
             "name": userData["name"],
             "email": userData["email"],

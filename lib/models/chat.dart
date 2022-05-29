@@ -10,7 +10,7 @@ class Chat extends Equatable {
   final List<ChatUser> members;
   List<ChatMessage> messages;
 
-  late final List<ChatUser> _recepients;
+  late final List<ChatUser> _recipients;
 
   Chat({
     required this.uid,
@@ -20,20 +20,18 @@ class Chat extends Equatable {
     required this.members,
     required this.messages,
   }) {
-    _recepients = members.where((user) => user.uid != currentUserUid).toList();
+    _recipients = members.where((user) => user.uid != currentUserUid).toList();
   }
 
-  List<ChatUser> recepients() {
-    return _recepients;
-  }
+  List<ChatUser> recipients() => _recipients;
 
   String title() {
-    return !group ? _recepients.first.name : _recepients.map((user) => user.name).join(", ");
+    return !group ? _recipients.first.name : _recipients.map((user) => user.name).join(", ");
   }
 
   String imageURL() {
     return !group
-        ? _recepients.first.imageUrl
+        ? _recipients.first.imageUrl
         : "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170";
   }
 

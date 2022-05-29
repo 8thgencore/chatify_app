@@ -1,3 +1,6 @@
+import 'package:chatify_app/models/chat.dart';
+import 'package:chatify_app/models/chat_message.dart';
+import 'package:chatify_app/models/chat_user.dart';
 import 'package:chatify_app/providers/authentication_provider.dart';
 import 'package:chatify_app/providers/chats_page_provider.dart';
 import 'package:chatify_app/widgets/custom_list_view_tiles.dart';
@@ -65,17 +68,48 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget _chatsList() {
-    return Expanded(child: _chatTile());
+    List<Chat>? chats = _pageProvider.chats;
+    return Expanded(
+      child: (() {
+        if (chats != null) {
+          if (chats.isNotEmpty) {
+            return ListView.builder(
+              itemCount: chats.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _chatTile(chats[index]);
+              },
+            );
+          } else {
+            return const Center(
+              child: Text(
+                "No Chats Found.",
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          }
+        } else {
+          return const Center(child: CircularProgressIndicator(color: Colors.white));
+        }
+      })(),
+    );
   }
 
-  Widget _chatTile() {
+  Widget _chatTile(Chat chat) {
+    List<ChatUser> recipients = chat.recipients();
+    bool isActive = recipients.any((d) => d.wasRecentlyActive());
+    String subtitleText = "";
+    if (chat.messages.isNotEmpty) {
+      subtitleText = chat.messages.first.msgType != MessageType.TEXT
+          ? "Media Attachment"
+          : chat.messages.first.content;
+    }
     return CustomListViewTileWithActivity(
       height: _deviceHeight * 0.10,
-      title: "Hussain Mustaf",
-      subtitle: "Subtitile",
-      imagePath: "https://i.pravatar.cc/300",
-      isActive: true,
-      isActivity: true,
+      title: chat.title(),
+      subtitle: subtitleText,
+      imagePath: chat.imageURL(),
+      isActive: isActive,
+      isActivity: chat.activity,
       onTap: () {},
     );
   }
