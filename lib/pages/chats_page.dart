@@ -1,11 +1,14 @@
 import 'package:chatify_app/models/chat.dart';
 import 'package:chatify_app/models/chat_message.dart';
 import 'package:chatify_app/models/chat_user.dart';
+import 'package:chatify_app/pages/chat_page.dart';
 import 'package:chatify_app/providers/authentication_provider.dart';
 import 'package:chatify_app/providers/chats_page_provider.dart';
+import 'package:chatify_app/services/navigation_service.dart';
 import 'package:chatify_app/widgets/custom_list_view_tiles.dart';
 import 'package:chatify_app/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class ChatsPage extends StatefulWidget {
@@ -20,6 +23,7 @@ class _ChatsPageState extends State<ChatsPage> {
   late double _deviceWidth;
 
   late AuthenticationProvider _auth;
+  late NavigationService _navigation;
   late ChatsPageProvider _pageProvider;
 
   @override
@@ -27,6 +31,7 @@ class _ChatsPageState extends State<ChatsPage> {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
+    _navigation = GetIt.instance.get<NavigationService>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ChatsPageProvider>(
@@ -110,7 +115,7 @@ class _ChatsPageState extends State<ChatsPage> {
       imagePath: chat.imageURL(),
       isActive: isActive,
       isActivity: chat.activity,
-      onTap: () {},
+      onTap: () => _navigation.navigateToPage(ChatPage(chat: chat)),
     );
   }
 }
