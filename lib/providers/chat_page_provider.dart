@@ -64,7 +64,7 @@ class ChatPageProvider extends ChangeNotifier {
     if (_message != null) {
       ChatMessage messageToSend = ChatMessage(
         userId: _auth.chatUser.uid,
-        msgType: MessageType.TEXT,
+        type: MessageType.TEXT,
         content: _message!,
         createdAt: DateTime.now(),
       );
@@ -80,7 +80,7 @@ class ChatPageProvider extends ChangeNotifier {
             await _storage.saveChatImageToStorage(chatId, _auth.chatUser.uid, file);
         ChatMessage messageToSend = ChatMessage(
           userId: _auth.chatUser.uid,
-          msgType: MessageType.IMAGE,
+          type: MessageType.IMAGE,
           content: downloadURL!,
           createdAt: DateTime.now(),
         );

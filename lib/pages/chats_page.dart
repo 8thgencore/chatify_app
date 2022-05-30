@@ -80,9 +80,7 @@ class _ChatsPageState extends State<ChatsPage> {
           if (chats.isNotEmpty) {
             return ListView.builder(
               itemCount: chats.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _chatTile(chats[index]);
-              },
+              itemBuilder: (BuildContext context, int index) => _chatTile(chats[index]),
             );
           } else {
             return const Center(
@@ -104,7 +102,7 @@ class _ChatsPageState extends State<ChatsPage> {
     bool isActive = recipients.any((d) => d.wasRecentlyActive());
     String subtitleText = "";
     if (chat.messages.isNotEmpty) {
-      subtitleText = chat.messages.first.msgType != MessageType.TEXT
+      subtitleText = chat.messages.first.type != MessageType.TEXT
           ? "Media Attachment"
           : chat.messages.first.content;
     }

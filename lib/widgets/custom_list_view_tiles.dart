@@ -1,3 +1,6 @@
+import 'package:chatify_app/models/chat_message.dart';
+import 'package:chatify_app/models/chat_user.dart';
+import 'package:chatify_app/widgets/message_bubbles.dart';
 import 'package:chatify_app/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -47,10 +50,7 @@ class CustomListViewTileWithActivity extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SpinKitThreeBounce(
-                  color: Colors.white54,
-                  size: height * 0.10,
-                ),
+                SpinKitThreeBounce(color: Colors.white54, size: height * 0.10),
               ],
             )
           : Text(
@@ -61,6 +61,55 @@ class CustomListViewTileWithActivity extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
+    );
+  }
+}
+
+class CustomChatListViewTile extends StatelessWidget {
+  final double width;
+  final double deviceHeight;
+  final bool isOwnMessage;
+  final ChatMessage message;
+  final ChatUser sender;
+
+  const CustomChatListViewTile({
+    Key? key,
+    required this.width,
+    required this.deviceHeight,
+    required this.isOwnMessage,
+    required this.message,
+    required this.sender,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      width: width,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: isOwnMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          !isOwnMessage
+              ? RoundedImageNetwork(imagePath: sender.imageUrl, size: width * 0.12)
+              : Container(),
+          SizedBox(width: width * 0.04),
+          message.type == MessageType.TEXT
+              ? TextMessageBubble(
+                  isOwnMessage: isOwnMessage,
+                  message: message,
+                  height: deviceHeight * 0.06,
+                  width: width * 0.80,
+                )
+              : ImageMessageBubble(
+                  isOwnMessage: isOwnMessage,
+                  message: message,
+                  height: deviceHeight * 0.30,
+                  width: width * 0.80,
+                ),
+        ],
+      ),
     );
   }
 }

@@ -12,13 +12,13 @@ enum MessageType {
 @JsonSerializable(fieldRename: FieldRename.kebab)
 class ChatMessage extends Equatable {
   final String userId;
-  final MessageType msgType;
+  final MessageType type;
   final String content;
   final DateTime createdAt;
 
   const ChatMessage({
     required this.userId,
-    required this.msgType,
+    required this.type,
     required this.content,
     required this.createdAt,
   });
@@ -28,5 +28,5 @@ class ChatMessage extends Equatable {
   Map<String, dynamic> toJson() => _$ChatMessageToJson(this);
 
   @override
-  List<Object?> get props => [userId, msgType, content, createdAt];
+  List<Object?> get props => [userId, type, content, createdAt];
 }
