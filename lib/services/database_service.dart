@@ -55,7 +55,7 @@ class DatabaseService {
           .collection(MESSAGES_COLLECTION)
           .add(message.toJson());
     } catch (e) {
-      print(e);
+      print("addMessageToChat: $e");
     }
   }
 

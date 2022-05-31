@@ -17,12 +17,12 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onSaved: (_value) => onSaved(_value!),
+      onSaved: (value) => onSaved(value!),
       cursorColor: Colors.white,
       style: const TextStyle(color: Colors.white),
       obscureText: obscureText,
-      validator: (_value) {
-        return RegExp(regEx).hasMatch(_value!) ? null : "Enter a valid value.";
+      validator: (value) {
+        return RegExp(regEx).hasMatch(value!) ? null : "Enter a valid value.";
       },
       decoration: InputDecoration(
         fillColor: const Color.fromRGBO(30, 29, 37, 1.0),

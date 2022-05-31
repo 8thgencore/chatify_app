@@ -111,7 +111,7 @@ class _RegisterPageState extends State<RegisterPage> {
               onSaved: (value) {
                 setState(() => _name = value);
               },
-              regEx: r".{8,}",
+              regEx: r".{4,}",
               hintText: "Name",
               obscureText: false,
             ),

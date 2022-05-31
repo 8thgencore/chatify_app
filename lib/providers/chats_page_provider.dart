@@ -10,13 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class ChatsPageProvider extends ChangeNotifier {
+  late DatabaseService _db;
+  late StreamSubscription _chatStream;
+
   AuthenticationProvider _auth;
 
-  late DatabaseService _db;
-
   List<Chat>? chats;
-
-  late StreamSubscription _chatStream;
 
   ChatsPageProvider(this._auth) {
     _db = GetIt.instance.get<DatabaseService>();
@@ -33,7 +32,6 @@ class ChatsPageProvider extends ChangeNotifier {
     try {
       _chatStream = _db.getChatsForUser(_auth.chatUser.uid).listen((snapshot) async {
         chats = await Future.wait(snapshot.docs.map((doc) async {
-
           Map<String, dynamic> chatData = doc.data() as Map<String, dynamic>;
 
           // get users in chat

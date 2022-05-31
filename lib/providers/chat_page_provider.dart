@@ -18,7 +18,7 @@ class ChatPageProvider extends ChangeNotifier {
   late StreamSubscription _messagesStream;
 
   AuthenticationProvider _auth;
-  ScrollController _messageListViewController;
+  final ScrollController _messagesListViewController;
 
   final String chatId;
   String? _message;
@@ -26,7 +26,9 @@ class ChatPageProvider extends ChangeNotifier {
 
   String get message => message;
 
-  ChatPageProvider(this.chatId, this._auth, this._messageListViewController) {
+  set message(String value) => _message = value;
+
+  ChatPageProvider(this.chatId, this._auth, this._messagesListViewController) {
     _db = GetIt.instance.get<DatabaseService>();
     _storage = GetIt.instance.get<CloudStorageService>();
     _media = GetIt.instance.get<MediaService>();
@@ -43,6 +45,12 @@ class ChatPageProvider extends ChangeNotifier {
         }).toList();
         messages = _messages;
         notifyListeners();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_messagesListViewController.hasClients) {
+            _messagesListViewController
+                .jumpTo(_messagesListViewController.position.maxScrollExtent);
+          }
+        });
       });
     } catch (e) {
       print("Error getting messages.");
@@ -66,7 +74,7 @@ class ChatPageProvider extends ChangeNotifier {
         userId: _auth.chatUser.uid,
         type: MessageType.TEXT,
         content: _message!,
-        createdAt: DateTime.now(),
+        createdAt: DateTime.now().toUtc(),
       );
       _db.addMessageToChat(chatId, messageToSend);
     }
@@ -78,11 +86,12 @@ class ChatPageProvider extends ChangeNotifier {
       if (file != null) {
         String? downloadURL =
             await _storage.saveChatImageToStorage(chatId, _auth.chatUser.uid, file);
+
         ChatMessage messageToSend = ChatMessage(
           userId: _auth.chatUser.uid,
           type: MessageType.IMAGE,
           content: downloadURL!,
-          createdAt: DateTime.now(),
+          createdAt: DateTime.now().toUtc(),
         );
         _db.addMessageToChat(chatId, messageToSend);
       }

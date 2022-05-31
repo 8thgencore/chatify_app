@@ -17,6 +17,7 @@ class CloudStorageService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<String?> saveChatImageToStorage(String chatID, String userID, PlatformFile file) async {
@@ -28,5 +29,6 @@ class CloudStorageService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 }

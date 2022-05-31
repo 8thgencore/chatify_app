@@ -11,13 +11,14 @@ ChatMessage _$ChatMessageFromJson(Map<String, dynamic> json) => ChatMessage(
       type: $enumDecode(_$MessageTypeEnumMap, json['type']),
       content: json['content'] as String,
       createdAt: json['created_at'].toDate(),
+      // createdAt: DateTime.parse(json['created_at'] as String));
     );
 
 Map<String, dynamic> _$ChatMessageToJson(ChatMessage instance) => <String, dynamic>{
       'user_id': instance.userId,
       'type': _$MessageTypeEnumMap[instance.type],
       'content': instance.content,
-      'created_at': instance.createdAt.toIso8601String(),
+      'created_at': Timestamp.fromDate(instance.createdAt),
     };
 
 const _$MessageTypeEnumMap = {
