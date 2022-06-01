@@ -54,14 +54,17 @@ class _ChatPageState extends State<ChatPage> {
       _pageProvider = context.watch<ChatPageProvider>();
       return Scaffold(
         // appBar: AppBar(
+        //   centerTitle: true,
+        //   backgroundColor: const Color.fromRGBO(36, 35, 49, 1.0),
+        //   foregroundColor: const Color.fromRGBO(0, 82, 218, 1.0),
+        //   title: Text(
+        //     widget.chat.title(),
+        //     style: const TextStyle(color: Colors.white, fontSize: 16),
+        //   ),
         //   actions: [
         //     IconButton(
         //       icon: const Icon(Icons.delete, color: Color.fromRGBO(0, 82, 218, 1.0)),
         //       onPressed: () => _pageProvider.deleteChat(),
-        //     ),
-        //     IconButton(
-        //       icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 82, 218, 1.0)),
-        //       onPressed: () => _pageProvider.goBack(),
         //     ),
         //   ],
         // ),
@@ -69,9 +72,9 @@ class _ChatPageState extends State<ChatPage> {
           child: Container(
             padding: EdgeInsets.symmetric(
               horizontal: _deviceWidth * 0.03,
-              vertical: _deviceHeight * 0.02,
+              vertical: _deviceHeight * 0.03,
             ),
-            height: _deviceHeight * 0.98,
+            height: _deviceHeight * 0.97,
             width: _deviceWidth * 0.97,
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -138,7 +141,7 @@ class _ChatPageState extends State<ChatPage> {
         color: const Color.fromRGBO(30, 29, 37, 1.0),
         borderRadius: BorderRadius.circular(100),
       ),
-      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       child: Form(
         key: _messageFormState,
         child: Row(

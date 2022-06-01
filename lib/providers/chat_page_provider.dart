@@ -8,6 +8,7 @@ import 'package:chatify_app/services/media_service.dart';
 import 'package:chatify_app/services/navigation_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get_it/get_it.dart';
 
 class ChatPageProvider extends ChangeNotifier {
@@ -15,7 +16,10 @@ class ChatPageProvider extends ChangeNotifier {
   late CloudStorageService _storage;
   late MediaService _media;
   late NavigationService _navigation;
+
   late StreamSubscription _messagesStream;
+  late StreamSubscription _keyboardVisibilityStream;
+  late KeyboardVisibilityController _keyboardVisibilityController;
 
   AuthenticationProvider _auth;
   final ScrollController _messagesListViewController;
@@ -33,7 +37,9 @@ class ChatPageProvider extends ChangeNotifier {
     _storage = GetIt.instance.get<CloudStorageService>();
     _media = GetIt.instance.get<MediaService>();
     _navigation = GetIt.instance.get<NavigationService>();
+    _keyboardVisibilityController = KeyboardVisibilityController();
     listenToMessages();
+    listenToKeyboardChanges();
   }
 
   void listenToMessages() {
@@ -56,6 +62,12 @@ class ChatPageProvider extends ChangeNotifier {
       print("Error getting messages.");
       print(e);
     }
+  }
+
+  void listenToKeyboardChanges() {
+    _keyboardVisibilityStream = _keyboardVisibilityController.onChange.listen((event) {
+      _db.updateChatData(chatId, {"is_activity": event});
+    });
   }
 
   @override

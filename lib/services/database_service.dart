@@ -1,6 +1,7 @@
 import 'package:chatify_app/models/chat_message.dart';
 import 'package:chatify_app/utils/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -16,12 +17,24 @@ class DatabaseService {
         "last_active": DateTime.now().toUtc(),
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
   Future<DocumentSnapshot> getUser(String uid) {
     return _db.collection(USER_COLLECTION).doc(uid).get();
+  }
+
+  Future<QuerySnapshot> getUsers({String? name}) {
+    Query query = _db.collection(USER_COLLECTION);
+    if (name != null) {
+      query = query
+          .where("name", isGreaterThanOrEqualTo: name)
+          .where("name", isLessThanOrEqualTo: "${name}z");
+    }
+    return query.get();
   }
 
   Stream<QuerySnapshot> getChatsForUser(String uid) {
@@ -55,7 +68,9 @@ class DatabaseService {
           .collection(MESSAGES_COLLECTION)
           .add(message.toJson());
     } catch (e) {
-      print("addMessageToChat: $e");
+      if (kDebugMode) {
+        print("addMessageToChat: $e");
+      }
     }
   }
 
@@ -63,7 +78,9 @@ class DatabaseService {
     try {
       await _db.collection(CHAT_COLLECTION).doc(chatId).update(data);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -71,7 +88,9 @@ class DatabaseService {
     try {
       await _db.collection(CHAT_COLLECTION).doc(chatId).delete();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -81,7 +100,21 @@ class DatabaseService {
         "last_active": DateTime.now().toUtc(),
       });
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
+  }
+
+  Future<DocumentReference?> createChat(Map<String, dynamic> data) async {
+    try {
+      DocumentReference chat = await _db.collection(CHAT_COLLECTION).add(data);
+      return chat;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    return null;
   }
 }

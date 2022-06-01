@@ -43,33 +43,34 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget _buildUI() {
-    return Builder(builder: (BuildContext context) {
-      _pageProvider = context.watch<ChatsPageProvider>();
-      return Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: _deviceWidth * 0.03,
-          vertical: _deviceHeight * 0.02,
-        ),
-        height: _deviceHeight * 0.98,
-        width: _deviceWidth * 0.97,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: _deviceHeight * 0.02),
-            TopBar(
-              barTitle: "Chats",
-              primaryAction: IconButton(
-                icon: const Icon(Icons.logout, color: Color.fromRGBO(0, 82, 218, 1.0)),
-                onPressed: () => _auth.logout(),
+    return Builder(
+      builder: (BuildContext context) {
+        _pageProvider = context.watch<ChatsPageProvider>();
+        return Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: _deviceWidth * 0.03,
+            vertical: _deviceHeight * 0.03,
+          ),
+          height: _deviceHeight * 0.97,
+          width: _deviceWidth * 0.97,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopBar(
+                barTitle: 'Chats',
+                primaryAction: IconButton(
+                  icon: const Icon(Icons.logout, color: Color.fromRGBO(0, 82, 218, 1.0)),
+                  onPressed: () => _auth.logout(),
+                ),
               ),
-            ),
-            _chatsList(),
-          ],
-        ),
-      );
-    });
+              _chatsList(),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _chatsList() {
@@ -84,10 +85,7 @@ class _ChatsPageState extends State<ChatsPage> {
             );
           } else {
             return const Center(
-              child: Text(
-                "No Chats Found.",
-                style: TextStyle(color: Colors.white),
-              ),
+              child: Text("No Chats Found.", style: TextStyle(color: Colors.white)),
             );
           }
         } else {

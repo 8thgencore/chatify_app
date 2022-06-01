@@ -14,7 +14,7 @@ class TopBar extends StatelessWidget {
     required this.barTitle,
     this.primaryAction,
     this.secondaryAction,
-    this.fontSize =35,
+    this.fontSize = 32,
   }) : super(key: key);
 
   @override
